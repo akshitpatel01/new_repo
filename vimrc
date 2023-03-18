@@ -60,6 +60,7 @@ inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "k"
 
 " cscope
 set cscopequickfix=s-,c-,d-,i-,t-,e-
+cs add cscope.out
 nnoremap fc :call Csc("")<CR>
 nnoremap Fc :call Csc(input('Enter text: '))<CR>
 nnoremap gd :call Csd("")<CR>
