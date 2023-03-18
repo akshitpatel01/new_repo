@@ -58,7 +58,7 @@ done
 
 # set source paths
 
-if [[ -e ${HOME}/.tmux.conf || -e ${HOME}/.vimrc || -e ${NVIM_SRC}/.init.vim ]]
+if [[ -e ${HOME}/.tmux.conf || -e ${HOME}/.vimrc || -e ${NVIM_SRC}/init.vim ]]
 then 
 	echo  "Tmux/vimrc file already exists"
     read -p "Do you want to replace the curent conf file(y/n): " user_input
@@ -67,7 +67,7 @@ then
         echo "Moving exisintg conf files to _old suffix"
         mv ${HOME}/.tmux.conf ${HOME}/.tmux.conf_old
         mv ${HOME}/.vimrc ${HOME}/.vimrc_old
-        mv ${NVIM_SRC}/.init.vim ${NVIM_SRC}/.init.vim_old
+        mv ${NVIM_SRC}/init.vim ${NVIM_SRC}/init.vim_old
         ln -s ${CONF_DIR}/tmux.conf ${HOME}/.tmux.conf
         ln -s ${CONF_DIR}/vimrc ${HOME}/.vimrc
         ln -s ${CONF_DIR}/nvim/init.vim ${NVIM_SRC}/init.vim
