@@ -16,24 +16,25 @@ cd ${CONF_DIR}
 
 sudo apt install git
 sudo apt install tmux
+sudo apt install cscope
 git clone https://github.com/akshitpatel01/vimrc.git ${DOTFILE_SRC}
 
 ln -s ${DOTFILE_SRC}/vimrc vimrc
 ln -s ${DOTFILE_SRC}/tmux.conf tmux.conf 
 
-
-
+# set source paths
 
 ln -s ${CONF_DIR}/tmux.conf ${HOME}/.tmux.conf
 ln -s ${CONF_DIR}/vimrc ${HOME}/.vimrc
 
 
-# set source paths
-
-
-
 # sartup first session
-# tmux new -s code
+cd -
+cscope -Rb
+tmux new -d -s code
+tmux send 'vim .' ENTER;
+tmux split-window -h
+
 
 
 
