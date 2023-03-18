@@ -1,4 +1,9 @@
+" hi
+set nocompatible
 syntax on                                                                          
+filetype plugin on 
+set omnifunc=syntaxcomplete#Complete
+set wildmenu
 set noerrorbells                                                                   
 set tabstop=4 softtabstop=4                                                        
 set shiftwidth=4                                                                   
@@ -13,6 +18,8 @@ set scrolloff=8
 set ignorecase                                                                     
 set smartcase                                                                      
 set exrc                                                                           
+set laststatus=2
+set linebreak
                                                                                    
 set colorcolumn=80                                                                 
 highlight ColorColumn ctermbg=0 guibg=lightgrey                                    
@@ -45,33 +52,35 @@ noremap <leader>mda :delm!<cr>
 " Insert mode                                                                   
 inoremap jk <ESC>                                                               
 inoremap kj <ESC>                                                               
+inoremap <expr> <C-j> pumvisible() ? "\<C-N>" : "j"
+inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "k"
                                                                                 
 " cscope                                                                        
 set cscopequickfix=s-,c-,d-,i-,t-,e-                                            
-nnoremap <leader>fc :call Csc("")<CR>                                           
-nnoremap <leader>Fc :call Csc(input('Enter text: '))<CR>                        
-nnoremap <leader>gd :call Csd("")<CR>                                           
-nnoremap <leader>Gd :call Csd(input('Enter text: '))<CR>                        
-nnoremap <leader>fs :call Css("")<CR>                                           
-nnoremap <leader>Fs :call Css(input('Enter text: '))<CR>                        
-nnoremap <leader>ft :call Cst("")<CR>                                           
-nnoremap <leader>Ft :call Cst(input('Enter text: '))<CR>                        
-nnoremap <leader>ff :call Csfd("")<CR>                                          
-nnoremap <leader>Ff :call Csfd(input('Enter text: '))<CR>                       
-nnoremap <leader>fo :call Csof(input('Enter text: '))<CR>                       
-                                                                                
-nnoremap <leader>tfc :call TCsc("")<CR>                                         
-nnoremap <leader>tFc :call TCsc(input('Enter text: '))<CR>                      
-nnoremap <leader>tgd :call TCsd("")<CR>                                         
-nnoremap <leader>tGd :call TCsd(input('Enter text: '))<CR>                      
-nnoremap <leader>tfs :call TCss("")<CR>                                         
-nnoremap <leader>tFs :call TCss(input('Enter text: '))<CR>                      
-nnoremap <leader>tft :call TCst("")<CR>                                         
-nnoremap <leader>tFt :call TCst(input('Enter text: '))<CR>                      
-nnoremap <leader>tff :call TCsfd("")<CR>                                        
-nnoremap <leader>tFf :call TCsfd(input('Enter text: '))<CR>                     
-nnoremap <leader>tfo :call TCsof(input('Enter text: '))<CR>                     
-nnoremap <leader>br :silent !cscope -Rb<CR>      
+nnoremap fc :call Csc("")<CR>                                           
+nnoremap Fc :call Csc(input('Enter text: '))<CR>                        
+nnoremap gd :call Csd("")<CR>                                           
+nnoremap Gd :call Csd(input('Enter text: '))<CR>                        
+nnoremap fs :call Css("")<CR>                                           
+nnoremap Fs :call Css(input('Enter text: '))<CR>                        
+nnoremap ft :call Cst("")<CR>                                           
+nnoremap Ft :call Cst(input('Enter text: '))<CR>                        
+nnoremap ff :call Csfd("")<CR>                                          
+nnoremap Ff :call Csfd(input('Enter text: '))<CR>                       
+nnoremap fo :call Csof(input('Enter text: '))<CR>                       
+                                                                        
+nnoremap tfc :call TCsc("")<CR>                                         
+nnoremap tFc :call TCsc(input('Enter text: '))<CR>                      
+nnoremap tgd :call TCsd("")<CR>                                         
+nnoremap tGd :call TCsd(input('Enter text: '))<CR>                      
+nnoremap tfs :call TCss("")<CR>                                         
+nnoremap tFs :call TCss(input('Enter text: '))<CR>                      
+nnoremap tft :call TCst("")<CR>                                         
+nnoremap tFt :call TCst(input('Enter text: '))<CR>                      
+nnoremap tff :call TCsfd("")<CR>                                        
+nnoremap tFf :call TCsfd(input('Enter text: '))<CR>                     
+nnoremap tfo :call TCsof(input('Enter text: '))<CR>                     
+nnoremap crb :silent !cscope -Rb<CR>      
 
 function! Csc(msg)                                                              
     if len(a:msg) == 0                                                          
@@ -146,6 +155,7 @@ function! TCst(msg)
     copen                                                                       
     set switchbuf-=usetab,newtab                                                
 endfunction
+
 function! Testing()                                                             
     " this is the droid you're looking for                                      
      "echo substitute(expand('<sfile>'), '.*\(\.\.\|\s\)', '', '')              
@@ -204,3 +214,6 @@ nnoremap <leader>qc :ccl<CR>
                                                                                 
 " autocmd                                                                       
 " autocmd FileType qf nnoremap <buffer> <Enter> <C-W><Enter><C-W>T 
+
+" hl search
+nnoremap <ESC><ESC> :nohlsearch<CR>
