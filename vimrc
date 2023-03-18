@@ -20,9 +20,10 @@ set smartcase
 set exrc
 set laststatus=2
 set linebreak
+colorscheme gruvbox
+set background=dark
 
 set colorcolumn=80
-highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 
 let mapleader = " "

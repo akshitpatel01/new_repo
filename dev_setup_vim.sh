@@ -29,14 +29,16 @@ sudo apt install -y cscope
 
 ln -s ${DOTFILE_SRC}/vimrc vimrc
 ln -s ${DOTFILE_SRC}/tmux.conf tmux.conf 
-ln -s ${DOTFILE_SRC}/colorschemes color/  
+ln -s ${DOTFILE_SRC}/colorschemes color  
 mkdir -p ${HOME}/.vim/colors
-for filename in ${DOTFILE_SRC}/colorschemes/*.vim do
-    if [ -e ${HOME}/.vim/colors/$filename ]
+for filename in ${DOTFILE_SRC}/colorschemes/*.vim
+do
+    name=${filename##*/}
+    if [[ -e ${HOME}/.vim/colors/$name ]]
     then
-        echo "Colorscheme $filename already exists"
+        echo "Colorscheme $name already exists"
     else
-       ln -s ${HOME}/.vim/colors/$filename ${DOTFILE_SRC}/colorschemes/$filename
+       ln -s ${DOTFILE_SRC}/colorschemes/$name ${HOME}/.vim/colors/$name
     fi
 done
 
