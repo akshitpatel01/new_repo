@@ -10,6 +10,9 @@ trap clean_up ERR
 
 CONF_DIR=${HOME}/.user_conf
 DOTFILE_SRC=${CONF_DIR}/dotfiles
+VIM_SRC=${HOME}/.vim/
+NVIM_SRC=${HOME}/.config/nvim
+TMUX_SRC=${HOME}
 
 if [ -e ${CONF_DIR} ] 
 then
@@ -26,26 +29,36 @@ cd ${CONF_DIR}
 sudo apt install -y git
 sudo apt install -y tmux
 sudo apt install -y cscope
+sudo apt install -y vim
 
 ln -s ${DOTFILE_SRC}/vimrc vimrc
-ln -s ${DOTFILE_SRC}/init.vim init.vim
+ln -s ${DOTFILE_SRC}/nvim nvim
 ln -s ${DOTFILE_SRC}/tmux.conf tmux.conf 
 ln -s ${DOTFILE_SRC}/colorschemes color  
-mkdir -p ${HOME}/.vim/colors
+
+mkdir -p ${VIM_SRC}/colors
+mkdir -p ${NVIM_SRC}/colors
 for filename in ${DOTFILE_SRC}/colorschemes/*.vim
 do
     name=${filename##*/}
-    if [[ -e ${HOME}/.vim/colors/$name ]]
+    if [[ -e ${VIM_SRC}/colors/$name ]]
     then
         echo "Colorscheme $name already exists"
     else
-       ln -s ${DOTFILE_SRC}/colorschemes/$name ${HOME}/.vim/colors/$name
+       ln -s ${DOTFILE_SRC}/colorschemes/$name ${VIM_SRC}/colors/$name
+    fi
+    # nvim 
+    if [[ -e ${NVIM_SRC}/colors/$name ]]
+    then
+        echo " Nvim Colorscheme $name already exists"
+    else
+       ln -s ${DOTFILE_SRC}/colorschemes/$name ${NVIM_SRC}/colors/$name
     fi
 done
 
 # set source paths
 
-if [[ -e ${HOME}/.tmux.conf || -e ${HOME}/.vimrc || -e ${HOME}/.init.vim ]]
+if [[ -e ${HOME}/.tmux.conf || -e ${HOME}/.vimrc || -e ${NVIM_SRC}/.init.vim ]]
 then 
 	echo  "Tmux/vimrc file already exists"
     read -p "Do you want to replace the curent conf file(y/n): " user_input
@@ -54,10 +67,10 @@ then
         echo "Moving exisintg conf files to _old suffix"
         mv ${HOME}/.tmux.conf ${HOME}/.tmux.conf_old
         mv ${HOME}/.vimrc ${HOME}/.vimrc_old
-        mv ${HOME}/.init.vim ${HOME}/.init.vim_old
+        mv ${NVIM_SRC}/.init.vim ${NVIM_SRC}/.init.vim_old
         ln -s ${CONF_DIR}/tmux.conf ${HOME}/.tmux.conf
         ln -s ${CONF_DIR}/vimrc ${HOME}/.vimrc
-        ln -s ${CONF_DIR}/init.vim ${HOME}/.init.vim
+        ln -s ${CONF_DIR}/nvim/init.vim ${NVIM_SRC}/init.vim
     else
         read -p "Do you want to continue with current configs(y/n): " user_input
         if [ $user_input == "n" ]
@@ -69,7 +82,7 @@ else
 	echo  "Tmux and vimrc file does not exist. Creating new one"
     ln -s ${CONF_DIR}/tmux.conf ${HOME}/.tmux.conf
     ln -s ${CONF_DIR}/vimrc ${HOME}/.vimrc
-    ln -s ${CONF_DIR}/init.vim ${HOME}/.init.vim
+    ln -s ${CONF_DIR}/nvim/init.vim ${NVIM_SRC}/init.vim
 
 fi
 
