@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 clean_up () {
     ARG=$?
@@ -11,32 +11,73 @@ trap clean_up ERR
 CONF_DIR=${HOME}/.user_conf
 DOTFILE_SRC=${CONF_DIR}/dotfiles
 
-mkdir ${CONF_DIR}
+if [ -e ${CONF_DIR} ] 
+then
+    echo "Conf directory already exists. Using the curent one"
+    rm ${CONF_DIR}/vimrc
+    rm ${CONF_DIR}/tmux.conf
+else
+    echo "Creating the conf directory"
+    mkdir ${CONF_DIR}
+    git clone https://github.com/akshitpatel01/vimrc.git ${DOTFILE_SRC}
+fi
 cd ${CONF_DIR}
 
 sudo apt install -y git
 sudo apt install -y tmux
 sudo apt install -y cscope
-git clone https://github.com/akshitpatel01/vimrc.git ${DOTFILE_SRC}
 
 ln -s ${DOTFILE_SRC}/vimrc vimrc
 ln -s ${DOTFILE_SRC}/tmux.conf tmux.conf 
 
 # set source paths
 
-ln -s ${CONF_DIR}/tmux.conf ${HOME}/.tmux.conf
-ln -s ${CONF_DIR}/vimrc ${HOME}/.vimrc
+if [[ -e ${HOME}/.tmux.conf || -e ${HOME}/.vimrc ]]
+then 
+	echo  "Tmux/vimrc file already exists"
+    read -p "Do you want to replace the curent conf file(y/n): " user_input
+    if [ $user_input == "y" ]
+    then 
+        echo "Moving exisintg conf files to _old suffix"
+        mv ${HOME}/.tmux.conf ${HOME}/.tmux.conf_old
+        mv ${HOME}/.vimrc ${HOME}/.vimrc_old
+        ln -s ${CONF_DIR}/tmux.conf ${HOME}/.tmux.conf
+        ln -s ${CONF_DIR}/vimrc ${HOME}/.vimrc
+    else
+        read -p "Do you want to continue with current configs(y/n): " user_input
+        if [ $user_input == "n" ]
+        then
+            return 0;
+        fi
+    fi
+else
+	echo  "Tmux and vimrc file does not exist. Creating new one"
+    ln -s ${CONF_DIR}/tmux.conf ${HOME}/.tmux.conf
+    ln -s ${CONF_DIR}/vimrc ${HOME}/.vimrc
 
+fi
 
 # sartup first session
 cd -
 cscope -Rb
-tmux new -d -s code
-tmux send 'vim .' ENTER;
-tmux split-window -v
-tmux select-pane -U
-tmux resize-pane -L 15
-tmux split-window -h
-tmux select-pane -R
-tnux send 'htop' ENTER;
 
+if tmux ls | grep "code" ; 
+then 
+    read -p "Do you want to overwrite the current session with new session(y/n): " user_input
+    if [ $user_input == "n" ]
+    then
+        tmux source ${HOME}/.tmux.conf
+        tmux a -t code; 
+        exit 1;
+    else 
+        tmux kill-session -t code
+    fi
+fi
+tmux new -d -s code
+tmux send 'vim . -c "cs add cscope.out"' ENTER;
+tmux split-window -v
+tmux resize-pane -D 15
+tmux split-window -h
+tmux send 'htop' ENTER;
+tmux select-pane -U
+tmux a -t code
