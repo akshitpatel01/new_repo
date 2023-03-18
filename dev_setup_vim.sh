@@ -28,6 +28,7 @@ sudo apt install -y tmux
 sudo apt install -y cscope
 
 ln -s ${DOTFILE_SRC}/vimrc vimrc
+ln -s ${DOTFILE_SRC}/init.vim init.vim
 ln -s ${DOTFILE_SRC}/tmux.conf tmux.conf 
 ln -s ${DOTFILE_SRC}/colorschemes color  
 mkdir -p ${HOME}/.vim/colors
@@ -44,7 +45,7 @@ done
 
 # set source paths
 
-if [[ -e ${HOME}/.tmux.conf || -e ${HOME}/.vimrc ]]
+if [[ -e ${HOME}/.tmux.conf || -e ${HOME}/.vimrc || -e ${HOME}/.init.vim ]]
 then 
 	echo  "Tmux/vimrc file already exists"
     read -p "Do you want to replace the curent conf file(y/n): " user_input
@@ -53,8 +54,10 @@ then
         echo "Moving exisintg conf files to _old suffix"
         mv ${HOME}/.tmux.conf ${HOME}/.tmux.conf_old
         mv ${HOME}/.vimrc ${HOME}/.vimrc_old
+        mv ${HOME}/.init.vim ${HOME}/.init.vim_old
         ln -s ${CONF_DIR}/tmux.conf ${HOME}/.tmux.conf
         ln -s ${CONF_DIR}/vimrc ${HOME}/.vimrc
+        ln -s ${CONF_DIR}/init.vim ${HOME}/.init.vim
     else
         read -p "Do you want to continue with current configs(y/n): " user_input
         if [ $user_input == "n" ]
@@ -66,6 +69,7 @@ else
 	echo  "Tmux and vimrc file does not exist. Creating new one"
     ln -s ${CONF_DIR}/tmux.conf ${HOME}/.tmux.conf
     ln -s ${CONF_DIR}/vimrc ${HOME}/.vimrc
+    ln -s ${CONF_DIR}/init.vim ${HOME}/.init.vim
 
 fi
 
@@ -86,7 +90,7 @@ then
     fi
 fi
 tmux new -d -s code
-tmux send 'vim . -c "cs add cscope.out"' ENTER;
+tmux send 'nvim . -c "cs add cscope.out"' ENTER;
 tmux split-window -v
 tmux resize-pane -D 15
 tmux split-window -h
