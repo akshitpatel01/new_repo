@@ -8,15 +8,15 @@ clean_up () {
 }
 trap clean_up ERR
 
-CONF_DIR=${HOME}/.conf
+CONF_DIR=${HOME}/.user_conf
 DOTFILE_SRC=${CONF_DIR}/dotfiles
 
 mkdir -p ${CONF_DIR}
 cd ${CONF_DIR}
 
-sudo apt install git
-sudo apt install tmux
-sudo apt install cscope
+sudo apt install -y git
+sudo apt install -y tmux
+sudo apt install -y cscope
 git clone https://github.com/akshitpatel01/vimrc.git ${DOTFILE_SRC}
 
 ln -s ${DOTFILE_SRC}/vimrc vimrc
