@@ -3,7 +3,7 @@
 clean_up () {
     ARG=$?
     echo "> cleaning up"
-    rm -rf ~/.conf
+    rm -rf ${CONF_DIR}
     exit $ARG
 }
 trap clean_up ERR
@@ -11,7 +11,7 @@ trap clean_up ERR
 CONF_DIR=${HOME}/.user_conf
 DOTFILE_SRC=${CONF_DIR}/dotfiles
 
-mkdir -p ${CONF_DIR}
+mkdir ${CONF_DIR}
 cd ${CONF_DIR}
 
 sudo apt install -y git
@@ -33,11 +33,10 @@ cd -
 cscope -Rb
 tmux new -d -s code
 tmux send 'vim .' ENTER;
+tmux split-window -v
+tmux select-pane -U
+tmux resize-pane -L 15
 tmux split-window -h
-
-
-
-
-
-
+tmux select-pane -R
+tnux send 'htop' ENTER;
 
