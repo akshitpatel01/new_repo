@@ -37,7 +37,7 @@ cd -
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
 cp ${CONFIG_DIR}/zshrc ${HOME}/.zshrc
-cp ${CONFIG_DIR}/zsh_remaps.zsh ${SZSH_CUSTOM}/
+cp ${CONFIG_DIR}/zsh_remaps.zsh ${ZSH_CUSTOM}/
 chsh -s $(which zsh)
 
 
