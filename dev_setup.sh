@@ -23,10 +23,9 @@ sudo apt install tmux -y
 NVIM_SRC=${HOME}/nvim-0.91 
 CUR_DIR=$(pwd)
 CONFIG_DIR=${CUR_DIR}/vimrc/configs
-mkdir -p ${NVIM_SRC}
 
 # clone config repo
-git clone https://github.com/akshitpatel01/vimrc.git ${CUR_DIR}
+git clone https://github.com/akshitpatel01/vimrc.git
 
 # install oh my zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -38,9 +37,12 @@ cd -
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
 cp ${CONFIG_DIR}/zshrc ${HOME}/.zshrc
+cp ${CONFIG_DIR}/zsh_remaps.zsh ${SZSH_CUSTOM}/
 chsh -s $(which zsh)
 
+
 #install nvim 0.91
+mkdir -p ${NVIM_SRC}
 wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz -P ${NVIM_SRC}
 cd ${NVIM_SRC}
 tar -xvzf nvim-linux64.tar.gz
