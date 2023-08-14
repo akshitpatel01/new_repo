@@ -22,11 +22,11 @@ sudo apt install tmux -y
 
 NVIM_SRC=${HOME}/nvim-0.91 
 CUR_DIR=$(pwd)
-CONFIG_DIR=${CUR_DIR}/configs
+CONFIG_DIR=${CUR_DIR}/vimrc/configs
 mkdir -p ${NVIM_SRC}
 
 # clone config repo
-git clone https://github.com/akshitpatel01/vimrc.git ${CONFIG_DIR}
+git clone https://github.com/akshitpatel01/vimrc.git ${CUR_DIR}
 
 # install oh my zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
