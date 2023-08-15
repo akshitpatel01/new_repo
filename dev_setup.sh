@@ -19,6 +19,8 @@ sudo apt install curl -y
 sudo apt install cmake -y
 sudo apt install unzip -y
 sudo apt install tmux -y
+sudo apt-get install ripgrep -y
+sudo apt install gdb -y
 
 NVIM_SRC=${HOME}/nvim-0.91 
 CUR_DIR=$(pwd)
